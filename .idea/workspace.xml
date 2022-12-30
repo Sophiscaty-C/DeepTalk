@@ -2,11 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="512a9514-8b7c-4009-b762-69dfaa712523" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/execute.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MyBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MyBot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_data/Storagedata_type.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/Storagedata_type.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_cooked_data/seq.data" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_cooked_data/seq.data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/seq.data" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/seq.data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/xiaohuangji50w/corpus.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/xiaohuangji50w/corpus.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model1.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model2.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/execute.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/Repeater.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seq2seqModel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart_storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/smart_storage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

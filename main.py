@@ -4,9 +4,9 @@ import sqlite3
 from datetime import datetime, timedelta, timezone
 from creart import create
 from smart_storage import main, storagedata_type_update, operation_clf_model
-from execute import main_predict, Lang
+from implementation import *
 import json
-from utils import get_replys
+# from utils import get_replys
 
 from graia.saya import Saya
 from graia.broadcast import Broadcast
@@ -61,7 +61,7 @@ def get_model(s, time):
     return v, data_type, word_list, search_date_list
 
 def get_reply(s):
-    return main_predict(s)
+    return predict(s)
 
 def create_database_default(group, member):
     if os.path.isdir('./database/'+str(group.id)) is False:
@@ -289,11 +289,11 @@ async def group_message_listener(app: Ariadne, group: Group, message: MessageCha
     if is_reply[t] is False:
         operate_datatag(group, member, get_model(message.as_persistent_string(), time))
         if 0 in data_tag[t] and data_tag[t][0]==0:
-            # s=get_reply(message.as_persistent_string())
-            # await app.send_message(group, MessageChain([Plain(s)]))
-            reply=get_replys(message.as_persistent_string())
-            msg = MessageChain([Plain(reply)])
-            await app.send_message(group, msg)
+            s=get_reply(message.as_persistent_string())
+            await app.send_message(group, MessageChain([Plain(s)]))
+            # reply=get_replys(message.as_persistent_string())
+            # msg = MessageChain([Plain(reply)])
+            # await app.send_message(group, msg)
         elif 1 in data_tag[t] and data_tag[t][1] is not None:
             s, p=select_database(group, member, data_tag[t][1], Type_dict)
             is_reply[t]=True

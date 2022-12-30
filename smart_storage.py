@@ -10,12 +10,14 @@ import re
 import pickle
 import datetime
 from datetime import datetime as dt
+import jieba
 import jieba.posseg as pseg
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from config import getConfig
 
+gConfig = {}
 gConfig = getConfig.get_config()
 
 # 加载数据库数据类型字典
@@ -162,40 +164,40 @@ class operation_clf_model:
 
 
 # 定义“待搜索数据类别分类模型”类
-class type_clf_model:
-    def __init__(self):
-        self.model = ""  # 成员变量，用于存储模型
-        self.vectorizer = ""  # 成员变量，用于存储tfdif统计值
+# class type_clf_model:
+#     def __init__(self):
+#         self.model = ""  # 成员变量，用于存储模型
+#         self.vectorizer = ""  # 成员变量，用于存储tfdif统计值
 
-    # 训练模块
-    def train(self):
-        # 从excel文件读取训练样本
-        d_train = pd.read_excel('./chatbox_data/smart_storage/type_data_train.xlsx')
-        # 对训练数据进行预处理
-        train_data = []
-        for s in d_train.sentence.values:
-            pro_s = self.preprocess([w.word for w in pseg.cut(s)])
-            train_data.append(pro_s)
-        print("训练样本 = %d" % len(d_train))
-        # 利用sklearn中的函数进行tfidf训练
-        self.vectorizer = TfidfVectorizer(analyzer="word", token_pattern=r"(?u)\b\w+\b")
-        features = self.vectorizer.fit_transform(train_data)
-        print("训练样本特征表长度为 " + str(features.shape))
-        # 使用逻辑回归进行训练和预测
-        self.model = LogisticRegression(C=10)
-        self.model.fit(features, d_train.label)
+#     # 训练模块
+#     def train(self):
+#         # 从excel文件读取训练样本
+#         d_train = pd.read_excel('./chatbox_data/smart_storage/type_data_train.xlsx')
+#         # 对训练数据进行预处理
+#         train_data = []
+#         for s in d_train.sentence.values:
+#             pro_s = self.preprocess([w.word for w in pseg.cut(s)])
+#             train_data.append(pro_s)
+#         print("训练样本 = %d" % len(d_train))
+#         # 利用sklearn中的函数进行tfidf训练
+#         self.vectorizer = TfidfVectorizer(analyzer="word", token_pattern=r"(?u)\b\w+\b")
+#         features = self.vectorizer.fit_transform(train_data)
+#         print("训练样本特征表长度为 " + str(features.shape))
+#         # 使用逻辑回归进行训练和预测
+#         self.model = LogisticRegression(C=10)
+#         self.model.fit(features, d_train.label)
 
-    # 预测模块（使用模型预测）
-    def predict_model(self, sentence):
-        """
-        :param sentence: 用户输入语句预处理后的结果
-        :return: 意图类别，分数
-        """
-        sent_features = self.vectorizer.transform([sentence])
-        pre_test = self.model.predict_proba(sent_features).tolist()[0]
-        clf_result = pre_test.index(max(pre_test))
-        score = max(pre_test)
-        return clf_result, score
+#     # 预测模块（使用模型预测）
+#     def predict_model(self, sentence):
+#         """
+#         :param sentence: 用户输入语句预处理后的结果
+#         :return: 意图类别，分数
+#         """
+#         sent_features = self.vectorizer.transform([sentence])
+#         pre_test = self.model.predict_proba(sent_features).tolist()[0]
+#         clf_result = pre_test.index(max(pre_test))
+#         score = max(pre_test)
+#         return clf_result, score
 
 
 # 存储/搜索数据类型确定
@@ -406,7 +408,8 @@ def keywords_extract(raw_sentence: str, data_type: int, words_nx: List, Storaged
     return keywords
 
 
-def train_save(model: Union[operation_clf_model, type_clf_model] , clf_model_path) -> Union[operation_clf_model, type_clf_model]:
+def train_save(model: Union[operation_clf_model] , clf_model_path) -> Union[operation_clf_model]:
+    
     if os.path.exists(clf_model_path):
         with open(clf_model_path, 'rb') as file:
             model = pickle.loads(file.read())
@@ -470,7 +473,7 @@ def main(input_sentence, now_time: dt):
     return v, data_type, search_date_list, keywords
 
 
-# s1 = "查一下我今天存的文件"
+# s1 = "帮我找个文件"
 # s2 = "帮我删掉昨天存的文件"
 # s3 = "帮我把后天上午的日程改成开会"
 # s4 = "你这么做是存心的吧"
