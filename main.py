@@ -1,12 +1,8 @@
-import os
-import pytz
 import sqlite3
-from datetime import datetime, timedelta, timezone
 from creart import create
-from smart_storage import main, storagedata_type_update, operation_clf_model
-from implementation import *
-import json
-# from utils import get_replys
+from utils import *
+from database_utils import *
+from useful_tools import *
 
 from graia.saya import Saya
 from graia.broadcast import Broadcast
@@ -17,51 +13,11 @@ from graia.ariadne.message.element import Plain, Image, At, Source, App, File, E
 from graia.ariadne.message.chain import MessageChain
 from graia.ariadne.model import Group
 
+global ai
+ai=False
 flag={}
 is_reply={}
 data_tag={}
-
-def in_range(n, start, end = 0):
-  return start <= n <= end if end >= start else end <= n <= start
-
-def get_dict(s):
-    with open(s, 'r', encoding='UTF-8') as f:
-        Type_dict = json.load(f)
-    return Type_dict
-
-def set_dict(s, Type_dict):
-    json_str = json.dumps(Type_dict)
-    with open(s, 'w', encoding='UTF-8') as f:
-        f.write(json_str)
-
-def get_time(message):
-    e = str(message.get(Element)).split(', ')
-    time_list = []
-    time_list.append(int(e[1].split('(')[1]))
-    for i in range(2, 7):
-        if i==6:
-            if e[i].isdigit():
-                time_list.append(int(e[i]))
-            else:
-                time_list.append(int(1))
-        else:
-            time_list.append(int(e[i]))
-    time = datetime(time_list[0], time_list[1], time_list[2], time_list[3], time_list[4], time_list[5]).replace(tzinfo=pytz.utc)
-    time = time.astimezone(timezone(timedelta(hours=8)))
-    return time
-
-def get_col_name(cursor, t):
-    cursor.execute('pragma table_info({})'.format(t))
-    col_name = cursor.fetchall()
-    col_name = [x[1] for x in col_name]
-    return col_name
-
-def get_model(s, time):
-    v, data_type, word_list, search_date_list=main(s, time)
-    return v, data_type, word_list, search_date_list
-
-def get_reply(s):
-    return predict(s)
 
 def create_database_default(group, member):
     if os.path.isdir('./database/'+str(group.id)) is False:
@@ -103,147 +59,6 @@ def create_database_default(group, member):
         connect.commit()
         connect.close()
 
-def create_database(group, member, message, Type_dict):
-    s = "./database/" + str(group.id) + "/" + str(member.id) + ".db"
-    connect = sqlite3.connect(s)
-    cursor = connect.cursor()
-    create_sql="CREATE TABLE IF NOT EXISTS "
-    temp=message.split(' ')
-    for i in range(1, len(temp)):
-        if i==1:
-            create_sql+=temp[i]+" (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            Type_dict[len(Type_dict)]=temp[i]
-        elif i<len(temp)-1:
-            create_sql+=temp[i]+" TEXT, "
-        else:
-            create_sql += temp[i] + " TEXT);"
-    set_dict("./database/" + str(group.id) + "/Type_dict.json", Type_dict)
-    cursor.execute(create_sql)
-    connect.commit()
-    connect.close()
-    return temp[1]
-
-def insert_database(group, member, t, message, Type_dict):
-    t = str(t)
-    s = "./database/" + str(group.id) + "/" + str(member.id) + ".db"
-    connect = sqlite3.connect(s)
-    cursor = connect.cursor()
-    col_name=get_col_name(cursor, Type_dict[t])
-    temp = message.split(' ')
-    insert_sql="INSERT INTO "+Type_dict[t]+" ("
-    for i in range(1, len(temp)):
-        if i<len(temp)-1:
-            insert_sql+=col_name[i]+", "
-        else:
-            insert_sql += col_name[i] + ") VALUES ("
-    for i in range(1, len(temp)):
-        if i<len(temp)-1:
-            insert_sql+="'"+temp[i]+"', "
-        else:
-            insert_sql +="'"+temp[i]+"')"
-    cursor.execute(insert_sql)
-    connect.commit()
-    connect.close()
-
-def select_database(group, member, t, Type_dict, message="", page=1):
-    p, l = t
-    p = str(p)
-    s = "./database/" + str(group.id) + "/" + str(member.id) + ".db"
-    connect = sqlite3.connect(s)
-    cursor = connect.cursor()
-    col_name=get_col_name(cursor, Type_dict[p])
-    st=""
-    for i in col_name:
-        st+=i+" "
-    st+="\n"
-    select_sql=""
-    if len(l)==0:
-        select_sql+="SELECT * FROM "+Type_dict[p]
-    elif len(l)!=0 and message=="":
-        select_sql += "SELECT * FROM " + Type_dict[p] + " WHERE "
-        for i in range(len(col_name)):
-            for j in range(len(l)):
-                if i<len(col_name)-1 and j<len(l)-1:
-                    select_sql += col_name[i] + " LIKE '%" + l[j] + "%' OR "
-                else:
-                    select_sql += col_name[i] + " LIKE '%" + l[j] + "%'"
-    elif message!="":
-        select_sql+="SELECT * FROM "+Type_dict[p]+" WHERE "
-        for i in range(len(col_name)):
-            if i < len(col_name) - 1:
-                select_sql+=col_name[i]+" LIKE '%"+message+"%' OR "
-            else:
-                select_sql += col_name[i] + " LIKE '%" + message + "%'"
-    c=cursor.execute(select_sql)
-    count=0
-    for row in c:
-        count+=1
-        if (page - 1)*10 < count <= page*10:
-            for col in range(len(col_name)):
-                st+=str(row[col])+" "
-            st+='\n'
-        else:
-            continue
-    connect.close()
-    if count%10==0:
-        pagecount=int(count/10)
-    else:
-        pagecount=int(count/10)+1
-    return st, pagecount
-
-def update_database(group, member, t, message, Type_dict):
-    p, l = t
-    p = str(p)
-    s = "./database/" + str(group.id) + "/" + str(member.id) + ".db"
-    connect = sqlite3.connect(s)
-    cursor = connect.cursor()
-    temp = message.split(' ')
-    update_sql=""
-    if temp[1].isdigit():
-        id = temp[1]
-        for i in range(2, len(temp), 2):
-            update_sql += "UPDATE " + Type_dict[p] + " SET "+temp[i]+"='"+temp[i+1]+"' WHERE ID=" + id
-    else:
-        id1 = temp[1].split('-')[0]
-        id2 = temp[1].split('-')[1]
-        for i in range(2, len(temp), 2):
-            update_sql += "UPDATE " + Type_dict[p] + " SET "+temp[i]+"='"+temp[i+1]+"' WHERE ID>=" + id1 + " AND ID<=" + id2
-    cursor.execute(update_sql)
-    connect.commit()
-    connect.close()
-def delete_database(group, member, t, Type_dict, message=""):
-    p, l = t
-    p = str(p)
-    s = "./database/" + str(group.id) + "/" + str(member.id) + ".db"
-    connect = sqlite3.connect(s)
-    cursor = connect.cursor()
-    col_name = get_col_name(cursor, Type_dict[p])
-    if message=="":
-        select_sql=""
-        if len(l) == 0:
-            select_sql += "SELECT ID FROM " + Type_dict[p]
-        elif len(l) != 0 and message == "":
-            select_sql += "SELECT ID FROM " + Type_dict[p] + " WHERE "
-            for i in range(len(col_name)):
-                for j in range(len(l)):
-                    if i < len(col_name) - 1 and j < len(l) - 1:
-                        select_sql += col_name[i] + " LIKE '%" + l[j] + "%' OR "
-                    else:
-                        select_sql += col_name[i] + " LIKE '%" + l[j] + "%'"
-        delete_sql="DELETE FROM "+Type_dict[p]+" WHERE ID IN (SELECT ID FROM(" +select_sql+") AS TMP)"
-    else:
-        temp=message.split(' ')[1]
-        if temp.isdigit():
-            id=temp
-            delete_sql="DELETE FROM "+Type_dict[p]+" WHERE ID="+id
-        else:
-            id1=temp.split('-')[0]
-            id2=temp.split('-')[1]
-            delete_sql = "DELETE FROM " + Type_dict[p] + " WHERE ID>=" + id1+" AND ID<="+id2
-    cursor.execute(delete_sql)
-    connect.commit()
-    connect.close()
-
 def operate_datatag(group, member, x):
     data_tag[(group.id, member.id)].clear()
     v, data_type, word_list, search_date_list = x
@@ -278,6 +93,7 @@ with saya.module_context():
 
 @app.broadcast.receiver("GroupMessage")
 async def group_message_listener(app: Ariadne, group: Group, message: MessageChain, member: Member):
+    global ai
     time=get_time(message)
     create_database_default(group, member)
     Type_dict = get_dict("./database/" + str(group.id) + "/Type_dict.json")
@@ -289,11 +105,61 @@ async def group_message_listener(app: Ariadne, group: Group, message: MessageCha
     if is_reply[t] is False:
         operate_datatag(group, member, get_model(message.as_persistent_string(), time))
         if 0 in data_tag[t] and data_tag[t][0]==0:
-            s=get_reply(message.as_persistent_string())
-            await app.send_message(group, MessageChain([Plain(s)]))
-            # reply=get_replys(message.as_persistent_string())
-            # msg = MessageChain([Plain(reply)])
-            # await app.send_message(group, msg)
+            s_message=message.as_persistent_string()
+            if ai is False:
+                if s_message=="开启AI":
+                    ai=True
+                    await app.send_message(group, MessageChain([Plain("爷活辣")]))
+                elif s_message=="wby写文":
+                    await app.send_message(group, MessageChain([Plain("你先别急，让lmy先急")]))
+                elif s_message.startswith("骰子 "):
+                    l=[]
+                    temp=message.as_persistent_string().split(' ')[1].split('d')
+                    x, y=int(temp[0]), int(temp[1])
+                    for i in range(x):
+                        l.append(random.randint(1, y))
+                    await app.send_message(group, MessageChain([Plain(str(l))]))
+                elif s_message.startswith("接龙 "):
+                    s = message.as_persistent_string().split(' ')[1]
+                    if s=="3p":
+                        await app.send_message(group, MessageChain([Plain(str(random_num(3)))]))
+                    elif s=="4p":
+                        await app.send_message(group, MessageChain([Plain(str(random_num(4)))]))
+                    elif s=="题材":
+                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/题材.txt"))]))
+                    elif s == "池1":
+                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/池1.txt"))]))
+                    elif s == "池2":
+                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/池2.txt"))]))
+                # elif message.as_persistent_string() == "何切！":
+                #     已放入modules
+                # elif message.as_persistent_string().startswith("舟游数据 "):
+                #     已放入modules
+                # elif message.as_persistent_string().startswith("刀男 "):
+                #     已放入modules
+                # elif message.as_persistent_string().startswith("锻刀 "):
+                #     已放入modules
+                elif s_message.startswith("Gloomhaven "):
+                    await app.send_message(group, MessageChain([Plain("本功能正在开发中")]))
+                elif s_message=="数据库使用说明":
+                    d_message = MessageChain([Plain("数据库使用说明：\n" +
+                                                    "可能涉及到的消息发送格式：\n" +
+                                                    "页码：页码范围内的数字\n" +
+                                                    "查询关键词：key 关键词\n" +
+                                                    "修改：update id或id起始值-id终止值 字段名1 关键词1...\n" +
+                                                    "删除：del id或id起始值-id终止值\n" +
+                                                    "增加：add 数据1 数据2...\n" +
+                                                    "自定义：define 表名 字段名1 字段名2...\n")])
+                    await app.send_message(group, d_message)
+            elif ai is True:
+                if s_message=="关闭AI":
+                    ai=False
+                else:
+                    s=get_reply(s_message)
+                    await app.send_message(group, MessageChain([Plain(s)]))
+                    # reply=get_replys(message.as_persistent_string())
+                    # msg = MessageChain([Plain(reply)])
+                    # await app.send_message(group, msg)
         elif 1 in data_tag[t] and data_tag[t][1] is not None:
             s, p=select_database(group, member, data_tag[t][1], Type_dict)
             is_reply[t]=True
@@ -338,17 +204,18 @@ async def group_message_listener(app: Ariadne, group: Group, message: MessageCha
             else:
                 is_reply[t] = False
     if message.has(At(2890921034)):
-        s_message=MessageChain([Plain("DeepTalk闲聊机器人使用说明：\n"+
-                                      "自由聊天\n"+
-                                      "自由增删改查内容\n"+
-                                      "可能涉及到的消息发送格式：\n"+
-                                      "页码：页码范围内的数字\n"+
-                                      "查询关键词：key 关键词\n"+
-                                      "修改：update id或id起始值-id终止值 字段名1 关键词1...\n"+
-                                      "删除：del id或id起始值-id终止值\n"+
-                                      "增加：add 数据1 数据2...\n"+
-                                      "自定义：define 表名 字段名1 字段名2...\n"+
-                                      "结束操作：x")])
+        s_message=MessageChain([Plain("Bot关键词：\n【开启/关闭】AI" +
+                                    "\n数据库使用说明" +
+                                    "\nwby写文" +
+                                    "\n骰子 【数字】d【数字】" +
+                                    "\n接龙 【3p/4p/题材/池1/池2】" +
+                                    "\n何切！ 【答案】\n舟游抽卡 【账号 密码】" +
+                                    "\n刀男 【角色名称】" +
+                                    "\n锻刀 【木炭 玉钢 冷却材 砥石(50-999)】" +
+                                    "\nGloomhaven 【角色名称/卡牌名称】" +
+                                    "\n触发隐藏功能：" +
+                                    "\n发送两条以上相同消息" +
+                                    "\n在开启AI状态下发送查询好感"), Image(path="C:/Users/SophiscatyC/Pictures/Fire.png")])
         await app.send_message(group, s_message)
 
 app.launch_blocking()

@@ -3,17 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="512a9514-8b7c-4009-b762-69dfaa712523" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_data/Storagedata_type.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/Storagedata_type.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_cooked_data/seq.data" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_cooked_data/seq.data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/seq.data" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/seq.data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/xiaohuangji50w/corpus.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot_data/chatbot_train_raw_data/xiaohuangji50w/corpus.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model1.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot_model/operation_clf_model2.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/execute.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seq2seqModel.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/smart_storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/smart_storage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,20 +181,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils.py</url>
-          <line>21</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

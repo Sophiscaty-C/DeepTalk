@@ -1,8 +1,16 @@
-from aiohttp import ClientSession
+from graia.ariadne.connection.config import config, WebsocketClientConfig
+from graia.ariadne.event.message import *
+from graia.ariadne.message.element import Plain, Image, At, Source, App, File, Element, Voice
 import json
 import requests
+import pytz
+from datetime import *
+from smart_storage import main, storagedata_type_update, operation_clf_model
+from implementation import *
 
-
+'''
+Choose Bot IDE
+'''
 def load_config(config_file: str = "./config.json") -> dict:
     with open(config_file, 'r', encoding='utf-8') as f:  # 从json读配置
         config = json.loads(f.read())
@@ -10,13 +18,10 @@ def load_config(config_file: str = "./config.json") -> dict:
         config[key] = config[key].strip() if isinstance(config[key], str) else config[key]
     return config
 
-
-config = load_config()
-print(config)
-bot = config['bot']
-
-
 def get_replys(msg):
+    config = load_config()
+    print(config)
+    bot = config['bot']
     if bot == 'qingyunke':
         return get_qingyunke_reply(msg)
     elif bot == 'ruyi':
@@ -88,3 +93,48 @@ def get_tuling_reply(msg):
     #     for res in results['results']:
     #         reply += res['values']['text']
     return reply, None, None
+
+'''
+Tool Functions
+'''
+def in_range(n, start, end = 0):
+  return start <= n <= end if end >= start else end <= n <= start
+
+def get_dict(s):
+    with open(s, 'r', encoding='UTF-8') as f:
+        Type_dict = json.load(f)
+    return Type_dict
+
+def set_dict(s, Type_dict):
+    json_str = json.dumps(Type_dict)
+    with open(s, 'w', encoding='UTF-8') as f:
+        f.write(json_str)
+
+def get_time(message):
+    e = str(message.get(Element)).split(', ')
+    time_list = []
+    time_list.append(int(e[1].split('(')[1]))
+    for i in range(2, 7):
+        if i==6:
+            if e[i].isdigit():
+                time_list.append(int(e[i]))
+            else:
+                time_list.append(int(1))
+        else:
+            time_list.append(int(e[i]))
+    time = datetime.datetime(time_list[0], time_list[1], time_list[2], time_list[3], time_list[4], time_list[5]).replace(tzinfo=pytz.utc)
+    time = time.astimezone(timezone(timedelta(hours=8)))
+    return time
+
+def get_col_name(cursor, t):
+    cursor.execute('pragma table_info({})'.format(t))
+    col_name = cursor.fetchall()
+    col_name = [x[1] for x in col_name]
+    return col_name
+
+def get_model(s, time):
+    v, data_type, word_list, search_date_list=main(s, time)
+    return v, data_type, word_list, search_date_list
+
+def get_reply(s):
+    return predict(s)
