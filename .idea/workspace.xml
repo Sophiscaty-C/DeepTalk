@@ -3,10 +3,63 @@
   <component name="ChangeListManager">
     <list default="true" id="512a9514-8b7c-4009-b762-69dfaa712523" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/ToukenBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ToukenBrowser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/何切300/Answer/106_0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/何切300/Question/106_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/一期一振 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/三日月宗近 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/丰前江图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/乱藤四郎 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/乱藤四郎 极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/五虎退 极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/今剑 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/今剑 极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/前田藤四郎 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/厚藤四郎 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/厚藤四郎 极 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/同田贯正国 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/后藤藤四郎 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/和泉守兼定 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/堀川国广 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/堀川国广极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/大俱利伽罗 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/大和守安定 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/大般若长光 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/太郎太刀 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/宗三左文字 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/小夜左文字 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/小夜左文字 极 图鉴.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/小狐丸 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/小豆长光 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/小龙景光 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/山伏国广 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/山姥切国广 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/山姥切长义图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/岩融 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/御手杵 极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/数珠丸恒次 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/日向正宗 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/日本号 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/明石国行 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/次郎太刀 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/歌仙兼定 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/江雪左文字 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/浦岛虎彻 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/烛台切光忠 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/物吉贞宗 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/白山吉光图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/石切丸 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/笼手切江 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/药研极图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/药研藤四郎 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/莺丸 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/萤丸 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/蜂须贺虎彻 图鉴a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/蜂须贺虎彻 极图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/蜻蛉切 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/谦信 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/陆奥守吉行 图鉴.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/陆奥守吉行 极 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/静形薙刀 图鉴.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/鲶尾藤四郎 图鉴1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/刀男/images/鹤丸国永 图鉴.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
