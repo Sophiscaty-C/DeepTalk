@@ -110,47 +110,6 @@ async def group_message_listener(app: Ariadne, group: Group, message: MessageCha
                 if s_message=="开启AI":
                     ai=True
                     await app.send_message(group, MessageChain([Plain("爷活辣")]))
-                elif s_message=="wby写文":
-                    await app.send_message(group, MessageChain([Plain("你先别急，让lmy先急")]))
-                elif s_message.startswith("骰子 "):
-                    l=[]
-                    temp=message.as_persistent_string().split(' ')[1].split('d')
-                    x, y=int(temp[0]), int(temp[1])
-                    for i in range(x):
-                        l.append(random.randint(1, y))
-                    await app.send_message(group, MessageChain([Plain(str(l))]))
-                elif s_message.startswith("接龙 "):
-                    s = message.as_persistent_string().split(' ')[1]
-                    if s=="3p":
-                        await app.send_message(group, MessageChain([Plain(str(random_num(3)))]))
-                    elif s=="4p":
-                        await app.send_message(group, MessageChain([Plain(str(random_num(4)))]))
-                    elif s=="题材":
-                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/题材.txt"))]))
-                    elif s == "池1":
-                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/池1.txt"))]))
-                    elif s == "池2":
-                        await app.send_message(group, MessageChain([Plain(read_file("resources/接龙/池2.txt"))]))
-                # elif message.as_persistent_string() == "何切！":
-                #     已放入modules
-                # elif message.as_persistent_string().startswith("舟游数据 "):
-                #     已放入modules
-                # elif message.as_persistent_string().startswith("刀男 "):
-                #     已放入modules
-                # elif message.as_persistent_string().startswith("锻刀 "):
-                #     已放入modules
-                elif s_message.startswith("Gloomhaven "):
-                    await app.send_message(group, MessageChain([Plain("本功能正在开发中")]))
-                elif s_message=="数据库使用说明":
-                    d_message = MessageChain([Plain("数据库使用说明：\n" +
-                                                    "可能涉及到的消息发送格式：\n" +
-                                                    "页码：页码范围内的数字\n" +
-                                                    "查询关键词：key 关键词\n" +
-                                                    "修改：update id或id起始值-id终止值 字段名1 关键词1...\n" +
-                                                    "删除：del id或id起始值-id终止值\n" +
-                                                    "增加：add 数据1 数据2...\n" +
-                                                    "自定义：define 表名 字段名1 字段名2...\n")])
-                    await app.send_message(group, d_message)
             elif ai is True:
                 if s_message=="关闭AI":
                     ai=False
@@ -203,7 +162,7 @@ async def group_message_listener(app: Ariadne, group: Group, message: MessageCha
                 await app.send_message(group, MessageChain([Plain("数据删除完成")]))
             else:
                 is_reply[t] = False
-    if message.has(At(2890921034)):
+    if str(message.get(Element)[1])=="@2890921034":
         s_message=MessageChain([Plain("Bot关键词：\n【开启/关闭】AI" +
                                     "\n数据库使用说明" +
                                     "\nwby写文" +
